@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+// import "google/protobuf/timestamp.proto";
+
+package account;
+
+// Declare a service for each controller you have
+service AccountService {
+  // Declare an rpc for each method that is called via gRPC
+  // rpc Create (Account) returns (Account) {};
+  rpc FindOne (AccountId) returns (Account) {};
+  rpc FindMany (AccountId) returns (AccountResult) {};
+  rpc Create (Account) returns (Account) {};
+}
+
+// Declare the types used above
+message Account {
+  optional int32 id = 1;
+  optional string accountCode = 2;
+  optional string title = 3;
+  optional string parentCode = 4;
+  optional bool isActive = 5;
+}
+
+message AccountResult {
+  repeated Account rows = 1;
+  int32 count = 2;
+}
+message AccountId {
+  int32 id = 1;
+}
