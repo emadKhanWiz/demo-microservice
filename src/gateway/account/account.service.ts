@@ -28,4 +28,16 @@ export class AccountService {
     return res;
   }
 
+  @GrpcMethod('AccountService', 'Update')
+  async update(data: Account, metadata?: Metadata, call?: ServerUnaryCall<any, Account[]>): Promise<{data: Account[]}> {
+    console.log("Update");
+    console.log(data);
+    if(!data?.id){
+      return
+    }
+    
+    await this.accountRepository.update({...data, id: undefined},{ where: {id: data.id}});
+    return {data: await this.accountRepository.findAll({where: {id: data.id}})};
+  }
+
 }

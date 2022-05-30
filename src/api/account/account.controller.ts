@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Put } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { Account } from 'src/database/account.model';
 import { accountService } from '../interfaces/account.interface';
@@ -35,6 +35,11 @@ export class AccountController {
   @Post('')
   async create(@Body() data: Account): Promise<Account> {
     return await this.accountService.create(data);
+  }
+
+  @Put('')
+  async update(@Body() data: Account): Promise<{data: Account[]}> {
+    return await this.accountService.update(data);
   }
 
 }

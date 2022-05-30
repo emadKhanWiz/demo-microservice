@@ -11,6 +11,7 @@ service AccountService {
   rpc FindOne (AccountId) returns (Account) {};
   rpc FindMany (AccountId) returns (AccountResult) {};
   rpc Create (Account) returns (Account) {};
+  rpc Update (Account) returns (AccountArray) {};
 }
 
 // Declare the types used above
@@ -22,6 +23,9 @@ message Account {
   optional bool isActive = 5;
 }
 
+message AccountArray {
+  repeated Account data = 1;
+}
 message AccountResult {
   repeated Account rows = 1;
   int32 count = 2;
