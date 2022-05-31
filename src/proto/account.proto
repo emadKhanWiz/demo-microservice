@@ -7,7 +7,6 @@ package account;
 // Declare a service for each controller you have
 service AccountService {
   // Declare an rpc for each method that is called via gRPC
-  // rpc Create (Account) returns (Account) {};
   rpc FindOne (AccountId) returns (Account) {};
   rpc FindMany (AccountId) returns (AccountResult) {};
   rpc Create (Account) returns (Account) {};

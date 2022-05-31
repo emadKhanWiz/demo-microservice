@@ -1,45 +1,37 @@
-import { Body, Controller, Get, Inject, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Inject, OnModuleInit, Post, Put } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 import { Account } from 'src/database/account.model';
-import { accountService } from '../interfaces/account.interface';
+import { account } from 'src/proto/account';
 
 @Controller('account')
-export class AccountController {
+export class AccountController implements OnModuleInit {
+  private accountService: account.AccountService;
 
-  constructor(@Inject('ACCOUNT_PACKAGE') private client: ClientGrpc) {
-    this.accountService = this.client.getService('AccountService')
+  constructor(@Inject('ACCOUNT_PACKAGE') private client: ClientGrpc) {}
+
+  onModuleInit() {
+    this.accountService = this.client.getService<account.AccountService>('AccountService');
   }
 
-  accountService: accountService;
-  Create() {
-    return {
-      id: 1,
-      accountCode: '1233',
-      title: 'abc',
-      parentCode: 'bca',
-      isActive: 1,
-    }
-  }
-
-  
   @Get(':id')
-  async findOne(): Promise<Account> {
-    return await this.accountService.findOne({id: 1});
+  findOne(): Observable<account.Account> {
+    return this.accountService.findOne({ id: 1 });
   }
 
   @Get('')
-  async findMany(): Promise<{ rows: Account[], count: number }> {
-    return await this.accountService.findMany({id: 1});
+  findMany(): Observable<account.AccountResult> {
+    return this.accountService.findMany({id: 1});
   }
 
   @Post('')
-  async create(@Body() data: Account): Promise<Account> {
-    return await this.accountService.create(data);
+  create(@Body() data: Account): Observable<account.Account> {
+    return this.accountService.create(data);
   }
 
   @Put('')
-  async update(@Body() data: Account): Promise<{data: Account[]}> {
-    return await this.accountService.update(data);
+  update(@Body() data: Account): Observable<account.AccountArray> {
+    return this.accountService.update(data);
   }
 
 }
