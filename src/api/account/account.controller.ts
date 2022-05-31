@@ -2,7 +2,7 @@ import { Body, Controller, Get, Inject, OnModuleInit, Post, Put } from '@nestjs/
 import { ClientGrpc } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { Account } from 'src/database/account.model';
-import { account } from 'src/proto/account';
+import { account } from 'src/proto/account/account';
 
 @Controller('account')
 export class AccountController implements OnModuleInit {
